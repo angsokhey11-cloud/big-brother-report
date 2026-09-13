@@ -9,6 +9,7 @@
   .po-toolbar{align-items:end}
   .po-toolbar .client-field{min-width:270px;flex:1;max-width:420px}
   .btn.telegram{background:#229ed9;color:#fff}.btn.telegram:hover{filter:brightness(.96)}
+  .btn.image{background:#edf4ff;color:#245f9f;border:1px solid #cbdcf1}.btn.image:hover{background:#e3efff}
   .po-viewbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;padding:10px 12px;border:1px solid #d7e2ee;border-radius:11px;background:#f8fbff;color:#5f7388;font-size:9px;font-weight:800}
   .po-viewbar strong{color:#173f77;font-size:10px}
   .po-viewbar .clear-filter{border:0;background:transparent;color:#2f69b8;font-size:9px;font-weight:900;cursor:pointer;padding:4px 0}
@@ -19,71 +20,53 @@
   .summary .kpi:nth-child(1) strong{color:#2464aa}.summary .kpi:nth-child(2) strong{color:#7251b5}.summary .kpi:nth-child(3) strong{color:#b56713}.summary .kpi:nth-child(4) strong{color:#18864b}
   .po-card{background:#fff;border:1px solid #d7e2ee;border-left:5px solid #2f69b8;border-radius:15px;box-shadow:0 7px 24px rgba(20,55,90,.07);overflow:hidden;margin-bottom:14px}
   .po-client-head{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:15px 16px;background:linear-gradient(135deg,#edf5ff,#fbfdff);border-bottom:1px solid #d7e2ee}
-  .po-client-name{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-  .po-client-name strong{color:#173f77;font-size:15px}
+  .po-client-name{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.po-client-name strong{color:#173f77;font-size:15px}
   .po-code{display:inline-flex;align-items:center;border-radius:999px;padding:4px 8px;background:#dcecff;color:#245f9f;font-size:8px;font-weight:900}
   .po-client-sub{margin-top:5px;color:#7a8b9d;font-size:9px}
   .po-client-total{text-align:right;white-space:nowrap;background:#fff;border:1px solid #cfe0f2;border-radius:11px;padding:8px 11px}
-  .po-client-total small{display:block;color:#7a8b9d;font-size:7px;font-weight:900;text-transform:uppercase}
-  .po-client-total strong{display:block;margin-top:4px;color:#173f77;font-size:18px}
+  .po-client-total small{display:block;color:#7a8b9d;font-size:7px;font-weight:900;text-transform:uppercase}.po-client-total strong{display:block;margin-top:4px;color:#173f77;font-size:18px}
   .po-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:12px 14px;background:#fff}
-  .po-metric{border:1px solid #e1e9f2;border-radius:10px;padding:10px 11px}
-  .po-metric:nth-child(1){background:#f3f7fd}.po-metric:nth-child(2){background:#eef9f3;border-color:#d4eadc}.po-metric:nth-child(3){background:#f5f0ff;border-color:#e4d8f5}.po-metric:nth-child(4){background:#fff4e9;border-color:#f1dcc4}
-  .po-metric small{display:block;color:#77899c;font-size:7px;font-weight:900;text-transform:uppercase}
-  .po-metric strong{display:block;margin-top:5px;color:#173f77;font-size:13px}.po-metric:nth-child(2) strong{color:#18864b}.po-metric:nth-child(3) strong{color:#7251b5}.po-metric:nth-child(4) strong{color:#b56713}
-  .po-detail{border-top:1px solid #e4ebf3}
-  .po-detail>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;background:#f9fbfd;color:#173f77;font-size:10px;font-weight:900;cursor:pointer;user-select:none}
-  .po-detail>summary::-webkit-details-marker{display:none}
-  .po-detail>summary::after{content:'＋';font-size:13px;color:#51708f}
-  .po-detail[open]>summary{background:#f2f7fd}.po-detail[open]>summary::after{content:'−'}
-  .po-detail-note{color:#8191a2;font-size:8px;font-weight:700}
-  .po-badge{display:inline-flex;align-items:center;border-radius:999px;padding:4px 7px;font-size:8px;font-weight:900;background:#eef3f8;color:#566b80;white-space:nowrap}
-  .po-badge.paid{background:#edf9f3;color:#18864b}.po-badge.partial{background:#fff7e8;color:#9b6500}.po-badge.unpaid,.po-badge.pending{background:#fff1f1;color:#a73d36}
+  .po-metric{border:1px solid #e1e9f2;border-radius:10px;padding:10px 11px}.po-metric:nth-child(1){background:#f3f7fd}.po-metric:nth-child(2){background:#eef9f3;border-color:#d4eadc}.po-metric:nth-child(3){background:#f5f0ff;border-color:#e4d8f5}.po-metric:nth-child(4){background:#fff4e9;border-color:#f1dcc4}
+  .po-metric small{display:block;color:#77899c;font-size:7px;font-weight:900;text-transform:uppercase}.po-metric strong{display:block;margin-top:5px;color:#173f77;font-size:13px}.po-metric:nth-child(2) strong{color:#18864b}.po-metric:nth-child(3) strong{color:#7251b5}.po-metric:nth-child(4) strong{color:#b56713}
+  .po-detail{border-top:1px solid #e4ebf3}.po-detail>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;background:#f9fbfd;color:#173f77;font-size:10px;font-weight:900;cursor:pointer;user-select:none}.po-detail>summary::-webkit-details-marker{display:none}.po-detail>summary::after{content:'＋';font-size:13px;color:#51708f}.po-detail[open]>summary{background:#f2f7fd}.po-detail[open]>summary::after{content:'−'}.po-detail-note{color:#8191a2;font-size:8px;font-weight:700}
+  .po-badge{display:inline-flex;align-items:center;border-radius:999px;padding:4px 7px;font-size:8px;font-weight:900;background:#eef3f8;color:#566b80;white-space:nowrap}.po-badge.paid{background:#edf9f3;color:#18864b}.po-badge.partial{background:#fff7e8;color:#9b6500}.po-badge.unpaid,.po-badge.pending{background:#fff1f1;color:#a73d36}
   .po-empty{padding:34px 18px;text-align:center;background:#fff;border:1px dashed #cddae8;border-radius:12px;color:#77899c;font-size:10px}
+  .po-share-head{display:none;margin-bottom:12px;padding:18px 20px;border-radius:15px;background:linear-gradient(135deg,#173f77,#2f69b8);color:#fff}.po-share-head h2{margin:0;font-size:24px}.po-share-head p{margin:7px 0 0;font-size:11px;opacity:.9}.po-share-brand{font-size:9px;font-weight:900;letter-spacing:1.8px;opacity:.78;margin-bottom:5px}.po-capture-mode .po-share-head{display:block}.po-capture-mode .po-detail.orders{display:none}.po-capture-mode .po-detail.products{border-bottom:0}.po-capture-mode .po-card{box-shadow:none}
   @media(max-width:900px){.po-metrics{grid-template-columns:1fr 1fr}.po-toolbar .client-field{max-width:none}}
-  @media(max-width:600px){.po-client-head{align-items:flex-start}.po-client-total strong{font-size:15px}.po-metrics{grid-template-columns:1fr 1fr}.po-viewbar{align-items:flex-start;flex-direction:column}.po-toolbar .client-field{min-width:100%}.btn.telegram{width:100%}}
-  @media print{.po-viewbar{display:none!important}.po-detail{display:block}.po-detail>summary{display:flex}.po-detail:not([open])>.tablewrap{display:block!important}.btn.telegram{display:none!important}}
+  @media(max-width:600px){.po-client-head{align-items:flex-start}.po-client-total strong{font-size:15px}.po-metrics{grid-template-columns:1fr 1fr}.po-viewbar{align-items:flex-start;flex-direction:column}.po-toolbar .client-field{min-width:100%}.btn.telegram,.btn.image{width:100%}}
+  @media print{.po-viewbar{display:none!important}.po-detail{display:block}.po-detail>summary{display:flex}.po-detail:not([open])>.tablewrap{display:block!important}.btn.telegram,.btn.image{display:none!important}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
 <div class="app">
 <a class="back" href="index.html">← Main Reports</a>
 <div class="hero">
-  <div>
-    <h1>🧾 Purchase Order Report</h1>
-    <p>Monthly purchase summary by client. Filter one client instantly without reloading the month.</p>
-  </div>
+  <div><h1>🧾 Purchase Order Report</h1><p>Monthly purchase summary by client. Filter one client instantly without reloading the month.</p></div>
   <div class="pill">MONTHLY PURCHASES</div>
 </div>
 <div class="toolbar po-toolbar">
-  <div class="field">
-    <label>Report Month</label>
-    <input id="monthInput" type="month">
-  </div>
-  <div class="field client-field">
-    <label>Client Filter</label>
-    <select id="clientFilter" disabled>
-      <option value="">All Clients</option>
-    </select>
-  </div>
+  <div class="field"><label>Report Month</label><input id="monthInput" type="month"></div>
+  <div class="field client-field"><label>Client Filter</label><select id="clientFilter" disabled><option value="">All Clients</option></select></div>
   <button id="loadBtn" class="btn primary">Load Report</button>
-  <button id="telegramBtn" class="btn telegram" type="button" disabled>✈️ Share Telegram</button>
+  <button id="exportPngBtn" class="btn image" type="button" disabled>🖼 Export PNG</button>
+  <button id="telegramBtn" class="btn telegram" type="button" disabled>✈️ Share Picture</button>
   <button class="btn secondary" onclick="window.print()">Print</button>
 </div>
 <div id="status" class="status" hidden></div>
 <div id="loading" class="loading" hidden><div class="loadcard">Loading Purchase Report…</div></div>
 <main id="main" hidden>
-  <section class="summary">
-    <div class="kpi"><small>Total Purchases USD</small><strong id="totalUSD">$0.00</strong><div class="sub" id="totalUSDSub">Selected view total.</div></div>
-    <div class="kpi"><small>Total Purchases KHR</small><strong id="totalKHR">៛0</strong><div class="sub">KHR purchase orders.</div></div>
-    <div class="kpi"><small>Outstanding Payable USD</small><strong id="payableUSD">$0.00</strong><div class="sub">Remaining USD payable.</div></div>
-    <div class="kpi"><small>Purchases / Clients</small><strong id="counts">0 / 0</strong><div class="sub">Orders and clients in view.</div></div>
-  </section>
-  <div class="po-viewbar">
-    <div><strong id="viewTitle">All Clients</strong><span id="viewMeta"> — monthly summary</span></div>
-    <button id="clearFilterBtn" class="clear-filter" type="button" hidden>Show All Clients</button>
+  <div id="shareCapture">
+    <div id="shareHead" class="po-share-head"><div class="po-share-brand">BIG BROTHER</div><h2>Purchase Order Report</h2><p id="shareHeadMeta">Monthly purchase summary</p></div>
+    <section class="summary">
+      <div class="kpi"><small>Total Purchases USD</small><strong id="totalUSD">$0.00</strong><div class="sub">Selected view total.</div></div>
+      <div class="kpi"><small>Total Purchases KHR</small><strong id="totalKHR">៛0</strong><div class="sub">KHR purchase orders.</div></div>
+      <div class="kpi"><small>Outstanding Payable USD</small><strong id="payableUSD">$0.00</strong><div class="sub">Remaining USD payable.</div></div>
+      <div class="kpi"><small>Purchases / Clients</small><strong id="counts">0 / 0</strong><div class="sub">Orders and clients in view.</div></div>
+    </section>
+    <div class="po-viewbar"><div><strong id="viewTitle">All Clients</strong><span id="viewMeta"> — monthly summary</span></div><button id="clearFilterBtn" class="clear-filter" type="button" hidden>Show All Clients</button></div>
+    <div id="clients"></div>
   </div>
-  <div id="clients"></div>
 </main>
 </div>
 <script src="report-common.js?v=20260913-1"></script>
@@ -91,9 +74,8 @@
 (function(){
 'use strict';
 const R=window.BBReport,$=id=>document.getElementById(id);
-let data=null;
-const params=new URLSearchParams(location.search);
-const requestedMonth=params.get('month')||'';
+let data=null,preparedBlob=null,preparedKey='',preparing=false;
+const params=new URLSearchParams(location.search),requestedMonth=params.get('month')||'';
 let requestedClient=params.get('client')||'';
 if(/^\d{4}-\d{2}$/.test(requestedMonth))$('monthInput').value=requestedMonth;else R.setupMonth('monthInput');
 
@@ -101,81 +83,60 @@ function clientKey(c){return String(c.clientId||c.clientCode||c.clientName||'')}
 function statusClass(v){const s=String(v||'').trim().toLowerCase();if(s.includes('paid')&&!s.includes('unpaid')&&!s.includes('partial'))return 'paid';if(s.includes('partial'))return 'partial';if(s.includes('unpaid'))return 'unpaid';if(s.includes('pending'))return 'pending';return ''}
 function totalsFor(list){return list.reduce((a,c)=>{a.purchaseCount+=R.num(c.purchaseCount);a.totalUSD+=R.num(c.totalUSD);a.totalKHR+=R.num(c.totalKHR);a.payableUSD+=R.num(c.payableUSD);return a},{purchaseCount:0,totalUSD:0,totalKHR:0,payableUSD:0})}
 function selectedClients(){if(!data)return[];const v=$('clientFilter').value;return v?(data.clients||[]).filter(c=>clientKey(c)===v):(data.clients||[])}
+function currentClientLabel(){const filtered=!!$('clientFilter').value;const selected=$('clientFilter').selectedOptions[0];return filtered?(selected?.textContent||'Selected Client'):'All Clients'}
+function viewKey(){return [$('monthInput').value,$('clientFilter').value||'ALL'].join('|')}
+function safeFileName(){const month=$('monthInput').value||'month';const client=currentClientLabel().replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'').toLowerCase()||'all-clients';return `big-brother-purchase-${month}-${client}.png`}
 function fillClientFilter(clients){const select=$('clientFilter');const rows=[...(clients||[])].sort((a,b)=>String(a.clientName||'').localeCompare(String(b.clientName||'')));select.innerHTML='<option value="">All Clients</option>'+rows.map(c=>`<option value="${R.esc(clientKey(c))}">${R.esc(c.clientName)}${c.clientCode?' — '+R.esc(c.clientCode):''}</option>`).join('');select.disabled=false;if(requestedClient&&Array.from(select.options).some(o=>o.value===requestedClient))select.value=requestedClient;else select.value='';requestedClient=''}
-function orderRow(x){const currency=String(x.currency||'').toUpperCase();const status=String(x.paymentStatus||'-');return `<tr><td><b>${R.esc(x.purchaseId)}</b></td><td>${R.esc(x.purchaseDate)}</td><td>${R.esc(x.clientInvoiceNo||'-')}</td><td>${R.esc(currency||'-')}</td><td class="money">${currency==='KHR'?R.khr(x.grandTotal):R.money(x.grandTotal)}</td><td class="money">${currency==='KHR'?R.khr(x.payable):R.money(x.payable)}</td><td><span class="po-badge ${statusClass(status)}">${R.esc(status)}</span></td></tr>`}
+function orderRow(x){const currency=String(x.currency||'').toUpperCase(),status=String(x.paymentStatus||'-');return `<tr><td><b>${R.esc(x.purchaseId)}</b></td><td>${R.esc(x.purchaseDate)}</td><td>${R.esc(x.clientInvoiceNo||'-')}</td><td>${R.esc(currency||'-')}</td><td class="money">${currency==='KHR'?R.khr(x.grandTotal):R.money(x.grandTotal)}</td><td class="money">${currency==='KHR'?R.khr(x.payable):R.money(x.payable)}</td><td><span class="po-badge ${statusClass(status)}">${R.esc(status)}</span></td></tr>`}
 function card(c){
   const items=(c.items||[]).map(x=>`<tr><td><b>${R.esc(x.sku)}</b><div style="color:#728499;font-size:9px;margin-top:2px">${R.esc(x.productName)}</div></td><td>${R.esc(x.unit||'-')}</td><td class="qty">${R.qty(x.qty)}</td><td class="qty">${R.qty(x.promotionQty)}</td><td class="money">${R.money(x.amountUSD)}</td><td class="money">${R.khr(x.amountKHR)}</td></tr>`).join('');
   const orders=(c.purchases||[]).map(orderRow).join('');
   return `<section class="po-card">
-    <div class="po-client-head">
-      <div><div class="po-client-name"><strong>${R.esc(c.clientName)}</strong><span class="po-code">${R.esc(c.clientCode||c.clientId||'-')}</span></div><div class="po-client-sub">${R.qty(c.purchaseCount)} purchase order(s) in selected month</div></div>
-      <div class="po-client-total"><small>Total Purchase USD</small><strong>${R.money(c.totalUSD)}</strong></div>
-    </div>
-    <div class="po-metrics">
-      <div class="po-metric"><small>Purchase Orders</small><strong>${R.qty(c.purchaseCount)}</strong></div>
-      <div class="po-metric"><small>Total USD</small><strong>${R.money(c.totalUSD)}</strong></div>
-      <div class="po-metric"><small>Total KHR</small><strong>${R.khr(c.totalKHR)}</strong></div>
-      <div class="po-metric"><small>Payable USD</small><strong>${R.money(c.payableUSD)}</strong></div>
-    </div>
-    <details class="po-detail" open>
-      <summary><span>📦 Product Summary</span><span class="po-detail-note">${R.qty((c.items||[]).length)} SKU(s)</span></summary>
-      <div class="tablewrap"><table><thead><tr><th>SKU / Product</th><th>Unit</th><th class="qty">Qty</th><th class="qty">Promotion Qty</th><th class="money">Amount USD</th><th class="money">Amount KHR</th></tr></thead><tbody>${items||'<tr><td colspan="6" class="empty">No product items.</td></tr>'}</tbody></table></div>
-    </details>
-    <details class="po-detail">
-      <summary><span>🧾 Purchase Order Details</span><span class="po-detail-note">${R.qty(c.purchaseCount)} order(s)</span></summary>
-      <div class="tablewrap"><table><thead><tr><th>Purchase ID</th><th>Date</th><th>Client Invoice</th><th>Currency</th><th class="money">Grand Total</th><th class="money">Payable</th><th>Payment Status</th></tr></thead><tbody>${orders||'<tr><td colspan="7" class="empty">No purchase orders.</td></tr>'}</tbody></table></div>
-    </details>
+    <div class="po-client-head"><div><div class="po-client-name"><strong>${R.esc(c.clientName)}</strong><span class="po-code">${R.esc(c.clientCode||c.clientId||'-')}</span></div><div class="po-client-sub">${R.qty(c.purchaseCount)} purchase order(s) in selected month</div></div><div class="po-client-total"><small>Total Purchase USD</small><strong>${R.money(c.totalUSD)}</strong></div></div>
+    <div class="po-metrics"><div class="po-metric"><small>Purchase Orders</small><strong>${R.qty(c.purchaseCount)}</strong></div><div class="po-metric"><small>Total USD</small><strong>${R.money(c.totalUSD)}</strong></div><div class="po-metric"><small>Total KHR</small><strong>${R.khr(c.totalKHR)}</strong></div><div class="po-metric"><small>Payable USD</small><strong>${R.money(c.payableUSD)}</strong></div></div>
+    <details class="po-detail products" open><summary><span>📦 Product Summary</span><span class="po-detail-note">${R.qty((c.items||[]).length)} SKU(s)</span></summary><div class="tablewrap"><table><thead><tr><th>SKU / Product</th><th>Unit</th><th class="qty">Qty</th><th class="qty">Promotion Qty</th><th class="money">Amount USD</th><th class="money">Amount KHR</th></tr></thead><tbody>${items||'<tr><td colspan="6" class="empty">No product items.</td></tr>'}</tbody></table></div></details>
+    <details class="po-detail orders"><summary><span>🧾 Purchase Order Details</span><span class="po-detail-note">${R.qty(c.purchaseCount)} order(s)</span></summary><div class="tablewrap"><table><thead><tr><th>Purchase ID</th><th>Date</th><th>Client Invoice</th><th>Currency</th><th class="money">Grand Total</th><th class="money">Payable</th><th>Payment Status</th></tr></thead><tbody>${orders||'<tr><td colspan="7" class="empty">No purchase orders.</td></tr>'}</tbody></table></div></details>
   </section>`
 }
 function render(){
-  const list=selectedClients(),t=totalsFor(list),filtered=!!$('clientFilter').value;
-  $('totalUSD').textContent=R.money(t.totalUSD);
-  $('totalKHR').textContent=R.khr(t.totalKHR);
-  $('payableUSD').textContent=R.money(t.payableUSD);
-  $('counts').textContent=String(t.purchaseCount)+' / '+String(list.length);
-  const selected=$('clientFilter').selectedOptions[0];
-  $('viewTitle').textContent=filtered?(selected?.textContent||'Selected Client'):'All Clients';
-  $('viewMeta').textContent=' — '+String(t.purchaseCount)+' purchase order(s) · '+String(list.length)+' client(s)';
-  $('clearFilterBtn').hidden=!filtered;
-  $('telegramBtn').disabled=!data;
-  $('clients').innerHTML=list.map(card).join('')||'<div class="po-empty">No purchase orders match this client filter.</div>';
+  const list=selectedClients(),t=totalsFor(list),filtered=!!$('clientFilter').value,selected=$('clientFilter').selectedOptions[0];
+  $('totalUSD').textContent=R.money(t.totalUSD);$('totalKHR').textContent=R.khr(t.totalKHR);$('payableUSD').textContent=R.money(t.payableUSD);$('counts').textContent=String(t.purchaseCount)+' / '+String(list.length);
+  $('viewTitle').textContent=filtered?(selected?.textContent||'Selected Client'):'All Clients';$('viewMeta').textContent=' — '+String(t.purchaseCount)+' purchase order(s) · '+String(list.length)+' client(s)';$('clearFilterBtn').hidden=!filtered;
+  $('shareHeadMeta').textContent=($('monthInput').value||'Selected Month')+' • '+currentClientLabel();$('clients').innerHTML=list.map(card).join('')||'<div class="po-empty">No purchase orders match this client filter.</div>';
+  preparedBlob=null;preparedKey='';$('exportPngBtn').disabled=true;$('telegramBtn').disabled=true;setTimeout(preparePicture,120);
 }
-function shareTelegram(){
-  if(!data)return;
-  const list=selectedClients(),t=totalsFor(list),filtered=!!$('clientFilter').value;
-  const selected=$('clientFilter').selectedOptions[0];
-  const clientLabel=filtered?(selected?.textContent||'Selected Client'):'All Clients';
-  const reportUrl=new URL('https://angsokhey11-cloud.github.io/big-brother-report/purchase-order-report.html');
-  reportUrl.searchParams.set('month',$('monthInput').value);
-  if(filtered)reportUrl.searchParams.set('client',$('clientFilter').value);
-  const text=[
-    'BIG BROTHER — Purchase Order Report',
-    'Month: '+(data.periodLabel||$('monthInput').value),
-    'Client: '+clientLabel,
-    'Purchase Orders: '+String(t.purchaseCount),
-    'Total USD: '+R.money(t.totalUSD),
-    'Total KHR: '+R.khr(t.totalKHR),
-    'Outstanding Payable USD: '+R.money(t.payableUSD)
-  ].join('\n');
-  const telegram='https://t.me/share/url?url='+encodeURIComponent(reportUrl.toString())+'&text='+encodeURIComponent(text);
-  window.open(telegram,'_blank','noopener,noreferrer');
+async function captureBlob(){
+  if(typeof html2canvas!=='function')throw new Error('Image engine did not load. Please refresh once.');
+  const target=$('shareCapture');target.classList.add('po-capture-mode');
+  try{const canvas=await html2canvas(target,{backgroundColor:'#eef3f8',scale:Math.min(2,window.devicePixelRatio||1.5),useCORS:true,logging:false,scrollX:0,scrollY:-window.scrollY});return await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('Could not create report picture.')),'image/png',1));}
+  finally{target.classList.remove('po-capture-mode')}
+}
+async function preparePicture(){
+  if(!data||preparing)return;const key=viewKey();preparing=true;$('exportPngBtn').textContent='🖼 Preparing…';$('telegramBtn').textContent='✈️ Preparing…';
+  try{const blob=await captureBlob();if(key===viewKey()){preparedBlob=blob;preparedKey=key;$('exportPngBtn').disabled=false;$('telegramBtn').disabled=false;}}
+  catch(e){console.warn('Picture preparation:',e);}
+  finally{preparing=false;$('exportPngBtn').textContent='🖼 Export PNG';$('telegramBtn').textContent='✈️ Share Picture';}
+}
+function downloadBlob(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)}
+async function getPicture(){if(preparedBlob&&preparedKey===viewKey())return preparedBlob;R.status('status','Preparing report picture…','ok');const blob=await captureBlob();preparedBlob=blob;preparedKey=viewKey();return blob}
+async function exportPng(){try{const blob=await getPicture();downloadBlob(blob,safeFileName());R.status('status','PNG picture exported successfully.','ok')}catch(e){R.status('status',e.message||String(e),'error')}}
+function caption(){const t=totalsFor(selectedClients());return ['BIG BROTHER — Purchase Order Report','Month: '+$('monthInput').value,'Client: '+currentClientLabel(),'Purchase Orders: '+t.purchaseCount,'Total USD: '+R.money(t.totalUSD),'Total KHR: '+R.khr(t.totalKHR),'Outstanding Payable USD: '+R.money(t.payableUSD)].join('\n')}
+async function sharePicture(){
+  try{
+    const blob=await getPicture(),file=new File([blob],safeFileName(),{type:'image/png'}),text=caption();
+    if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[file]}))){await navigator.share({title:'BIG BROTHER Purchase Order Report',text,files:[file]});R.status('status','Picture shared.','ok');return;}
+    downloadBlob(blob,safeFileName());
+    const tg='https://t.me/share/url?url='+encodeURIComponent('')+'&text='+encodeURIComponent(text+'\n\nPNG downloaded — attach the downloaded picture in Telegram.');window.open(tg,'_blank','noopener');
+    R.status('status','PNG downloaded. Telegram opened — attach the downloaded picture.','ok');
+  }catch(e){if(e&&e.name==='AbortError')return;R.status('status',e.message||String(e),'error')}
 }
 async function load(){
-  R.disable('loadBtn',true,'Loading…');R.status('status','');R.loading('loading',true);$('main').hidden=true;$('clientFilter').disabled=true;$('telegramBtn').disabled=true;
-  try{
-    const p=R.monthParts($('monthInput').value);
-    data=await R.rpc('bb_report_purchase_orders_monthly',{p_year:p.year,p_month:p.month});
-    fillClientFilter(data.clients||[]);
-    render();
-    R.status('status',(data.periodLabel||'Selected month')+' • '+String((data.clients||[]).length)+' client(s) • Generated '+(data.generatedAt||''),'ok');
-    $('main').hidden=false;
-  }catch(e){R.status('status',e.message||String(e),'error')}
+  R.disable('loadBtn',true,'Loading…');R.status('status','');R.loading('loading',true);$('main').hidden=true;$('clientFilter').disabled=true;$('exportPngBtn').disabled=true;$('telegramBtn').disabled=true;
+  try{const p=R.monthParts($('monthInput').value);data=await R.rpc('bb_report_purchase_orders_monthly',{p_year:p.year,p_month:p.month});fillClientFilter(data.clients||[]);render();R.status('status',(data.periodLabel||'Selected month')+' • '+String((data.clients||[]).length)+' client(s) • Generated '+(data.generatedAt||''),'ok');$('main').hidden=false;setTimeout(preparePicture,180)}
+  catch(e){R.status('status',e.message||String(e),'error')}
   finally{R.loading('loading',false);R.disable('loadBtn',false)}
 }
-$('loadBtn').onclick=load;
-$('clientFilter').onchange=render;
-$('clearFilterBtn').onclick=()=>{$('clientFilter').value='';render()};
-$('telegramBtn').onclick=shareTelegram;
+$('loadBtn').onclick=load;$('clientFilter').onchange=render;$('clearFilterBtn').onclick=()=>{$('clientFilter').value='';render()};$('exportPngBtn').onclick=exportPng;$('telegramBtn').onclick=sharePicture;
 load();
 })();
 </script>
