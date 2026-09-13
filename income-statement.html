@@ -6,7 +6,72 @@
 <title>BIG BROTHER — Monthly Income Statement</title>
 <link rel="stylesheet" href="report.css?v=20260914-1">
 <style>
-.statement{max-width:1000px}.statement-row.section{background:#eef4fb;color:var(--navy);font-weight:900;text-transform:uppercase;font-size:10px;letter-spacing:.35px}.statement-row.indent2{padding-left:52px;color:#52677d}.statement-row.subtotal{font-weight:900;color:#244c79;background:#fbfdff;border-top:1px solid #dbe6f1}.statement-row.net{font-size:13px;font-weight:900;color:var(--navy);background:#edf5ff}.statement-row.retained-positive{font-size:15px;font-weight:900;color:var(--green);background:#edf9f3}.statement-row.retained-negative{font-size:15px;font-weight:900;color:var(--red);background:#fff1f1}.statement-row.muted-row{color:#8090a2;font-style:italic}.statement-note{max-width:1000px;margin:0 auto 12px}.statement-row .code{font-size:8px;color:#75869a;margin-left:7px;font-weight:800}.section-gap{height:7px;background:#eef3f8;border-bottom:1px solid #dfe8f1}.kpi.retained strong{color:var(--green)}
+:root{
+  --is-blue:#0f4f9d;
+  --is-blue-2:#edf5ff;
+  --is-green:#087a55;
+  --is-green-bg:#eefaf5;
+  --is-purple:#4b2abf;
+  --is-purple-bg:#f4f0ff;
+  --is-orange:#b85d00;
+  --is-orange-bg:#fff7ec;
+  --is-line:#d9e5f2;
+  --is-soft:#f8fbff;
+}
+body{background:#eef3f8}
+.app{max-width:1500px}
+.back{margin-bottom:8px}
+.hero{align-items:center;margin-bottom:12px}
+.hero h1{font-size:26px;letter-spacing:-.35px}
+.hero p{font-size:10px}
+.toolbar{justify-content:flex-end;gap:8px}
+.toolbar .field{margin-right:auto}
+.btn.picture{background:#eaf2fd;color:#17457a}
+.btn.telegram{background:#239adf;color:#fff}
+
+.capture-area{
+  background:linear-gradient(180deg,#fbfdff 0%,#f7faff 100%);
+  border:1px solid #d9e5f2;
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 8px 28px rgba(20,55,90,.06);
+}
+.capture-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:13px}
+.capture-brand{display:flex;align-items:center;gap:11px}
+.capture-logo{width:44px;height:44px;border-radius:12px;background:#173f77;color:#fff;display:flex;align-items:center;justify-content:center;font-size:23px;box-shadow:0 6px 16px rgba(23,63,119,.18)}
+.capture-title h2{margin:0;color:#153a67;font-size:20px}
+.capture-title p{margin:5px 0 0;color:#718399;font-size:9px}
+.capture-period{text-align:right;color:#5c7187;font-size:9px;font-weight:800;line-height:1.55}
+.capture-period strong{display:block;color:#173f77;font-size:12px}
+
+.summary{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.kpi{position:relative;overflow:hidden;padding:13px 14px;border-radius:13px;box-shadow:none}
+.kpi:before{content:"";position:absolute;right:-16px;top:-18px;width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.55)}
+.kpi small,.kpi strong,.kpi .sub{position:relative;z-index:1}
+.kpi strong{font-size:21px}
+.kpi.total{background:#edf5ff;border-color:#c9dcf5}.kpi.total strong{color:#0f4f9d}
+.kpi.gross{background:var(--is-green-bg);border-color:#caeadc}.kpi.gross strong{color:var(--is-green)}
+.kpi.net{background:var(--is-purple-bg);border-color:#ddd0ff}.kpi.net strong{color:var(--is-purple)}
+.kpi.retained{background:var(--is-orange-bg);border-color:#f2d7b8}.kpi.retained strong{color:var(--is-orange)}
+
+.statement-shell{background:#fff;border:1px solid var(--is-line);border-radius:14px;overflow:hidden}
+.statement-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 15px;border-bottom:1px solid var(--is-line);background:#fbfdff}
+.statement-top strong{font-size:15px;color:#173f77}.statement-top span{font-size:9px;color:#70839a;font-weight:800}
+.statement-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;padding:10px;background:#f5f9fd}
+.statement-column{display:flex;flex-direction:column;gap:10px;min-width:0}
+.block{background:#fff;border:1px solid #dce7f2;border-radius:10px;overflow:hidden}
+.block-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 11px;background:linear-gradient(90deg,#e7f2ff,#f4f8fc);color:#17457a;font-size:10px;font-weight:900}
+.block-head .amount{font-size:11px}
+.block-subhead{padding:8px 12px 6px;color:#335b88;font-size:9px;font-weight:900}
+.line{display:flex;justify-content:space-between;gap:15px;padding:7px 12px;border-top:1px solid #edf1f5;font-size:9px;color:#324b66}
+.line:first-child{border-top:0}.line .value{font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}.line.indent{padding-left:30px}.line.muted{color:#8795a5;font-style:italic}.line.less{color:#7a5360}.line.total{background:#f7fbff;color:#173f77;font-weight:900}.line.strong{background:#edf5ff;color:#153f73;font-size:10px;font-weight:900}.line.net-income{background:#e9f3ff;color:#0f4f9d;font-size:13px;font-weight:900}.line.retained-positive{background:#eefaf5;color:#087a55;font-size:13px;font-weight:900}.line.retained-negative{background:#fff1f1;color:#b93730;font-size:13px;font-weight:900}
+.code{font-size:7px;color:#8492a4;margin-left:5px;font-weight:900}
+.capture-footer{display:flex;justify-content:space-between;gap:12px;margin-top:10px;padding:0 3px;color:#8a99aa;font-size:8px}
+.statement-note{margin:10px 0 0;font-size:8px}
+
+@media(max-width:950px){.statement-grid{grid-template-columns:1fr}.capture-head{display:block}.capture-period{text-align:left;margin-top:8px}.summary{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.summary{grid-template-columns:1fr}.toolbar .field{width:100%;margin-right:0}.toolbar .btn{flex:1}.capture-area{padding:8px}.statement-grid{padding:6px}.capture-logo{display:none}}
+@media print{.capture-area{border:0;box-shadow:none;padding:0}.statement-grid{background:#fff}.capture-footer{display:flex!important}.statement-note{display:none}.toolbar,.back,.pill{display:none!important}}
 </style>
 </head>
 <body>
@@ -15,52 +80,153 @@
 <div class="hero">
   <div>
     <h1>📑 Income Statement — Monthly</h1>
-    <p>Management statement with sales by location, full-expense capital purchases, owner withdrawal and retained earnings.</p>
+    <p>Management statement with sales by location, capital expense, withdrawal and retained earnings.</p>
   </div>
   <div class="pill">INCOME STATEMENT</div>
 </div>
 <div class="toolbar">
   <div class="field"><label>Report Month</label><input id="monthInput" type="month"></div>
-  <button id="loadBtn" class="btn primary">Load Statement</button>
-  <button class="btn secondary" onclick="window.print()">Print</button>
+  <button id="loadBtn" class="btn primary">↻ Load Statement</button>
+  <button class="btn secondary" onclick="window.print()">🖨 Print</button>
+  <button id="savePictureBtn" class="btn picture">📷 Save as Picture</button>
+  <button id="telegramBtn" class="btn telegram">✈ Share to Telegram</button>
 </div>
 <div id="status" class="status" hidden></div>
 <div id="loading" class="loading" hidden><div class="loadcard">Loading Income Statement…</div></div>
 <main id="main" hidden>
-  <section class="summary">
-    <div class="kpi"><small>Total Sale</small><strong id="totalSale">$0.00</strong><div class="sub">Gross sales before returns.</div></div>
-    <div class="kpi"><small>Gross Profit</small><strong id="grossProfit">$0.00</strong><div class="sub">After sale return and COGS.</div></div>
-    <div class="kpi"><small>Net Income</small><strong id="netIncome">$0.00</strong><div class="sub">After all business expenses including capital expense.</div></div>
-    <div class="kpi retained"><small>Retained Earnings</small><strong id="retainedEarnings">$0.00</strong><div class="sub">Current period Net Income less paid Withdrawal.</div></div>
-  </section>
-  <section class="card statement">
-    <div class="card-head"><strong id="statementTitle">Monthly Income Statement</strong><span>USD</span></div>
-    <div id="statementRows"></div>
-  </section>
+  <div id="captureArea" class="capture-area">
+    <div class="capture-head">
+      <div class="capture-brand">
+        <div class="capture-logo">▥</div>
+        <div class="capture-title">
+          <h2>BIG BROTHER — Monthly Income Statement</h2>
+          <p>Management Statement • USD Reporting</p>
+        </div>
+      </div>
+      <div class="capture-period">
+        <span>REPORT PERIOD</span>
+        <strong id="capturePeriod">Monthly</strong>
+        <span id="captureGenerated"></span>
+      </div>
+    </div>
+
+    <section class="summary">
+      <div class="kpi total"><small>Total Sale</small><strong id="totalSale">$0.00</strong><div class="sub">Gross sales before returns.</div></div>
+      <div class="kpi gross"><small>Gross Profit</small><strong id="grossProfit">$0.00</strong><div class="sub">After returns and COGS.</div></div>
+      <div class="kpi net"><small>Net Income</small><strong id="netIncome">$0.00</strong><div class="sub">After all business expenses.</div></div>
+      <div class="kpi retained"><small>Retained Earnings</small><strong id="retainedEarnings">$0.00</strong><div class="sub">Net Income less Withdrawal.</div></div>
+    </section>
+
+    <section class="statement-shell">
+      <div class="statement-top"><strong id="statementTitle">Income Statement</strong><span>Amount (USD)</span></div>
+      <div class="statement-grid">
+        <div id="leftColumn" class="statement-column"></div>
+        <div id="rightColumn" class="statement-column"></div>
+      </div>
+    </section>
+
+    <div class="capture-footer">
+      <span>BIG BROTHER Accounting System</span>
+      <span>Management Statement • Capital Expense fully recognized • Withdrawal shown after Net Income</span>
+    </div>
+  </div>
   <div id="qualityNote" class="note statement-note"></div>
 </main>
 </div>
 <script src="report-common.js?v=20260913-1"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
 (function(){
 'use strict';
 const R=window.BBReport,$=id=>document.getElementById(id);
+let lastReport=null;
 R.setupMonth('monthInput');
-function row(label,value,cls='',suffix=''){
-  return `<div class="statement-row ${cls}"><span>${R.esc(label)}${suffix}</span><span>${value==null?'':R.money(value)}</span></div>`;
+
+function money(v){return R.money(R.num(v))}
+function line(label,value,cls='',suffix=''){
+  return `<div class="line ${cls}"><span>${R.esc(label)}${suffix}</span><span class="value">${money(value)}</span></div>`;
 }
-function section(label){return row(label,null,'section')}
-function gap(){return '<div class="section-gap"></div>'}
-function categories(sectionData,emptyLabel){
+function emptyLine(label){return `<div class="line indent muted"><span>${R.esc(label)}</span><span class="value">$0.00</span></div>`}
+function block(title,body,totalValue){
+  return `<section class="block"><div class="block-head"><span>⌄ ${R.esc(title)}</span>${totalValue==null?'':`<span class="amount">${money(totalValue)}</span>`}</div>${body}</section>`;
+}
+function categoryLines(sectionData,emptyLabel){
   const cats=Array.isArray(sectionData?.categories)?sectionData.categories:[];
-  if(!cats.length) return row(emptyLabel,0,'indent2 muted-row');
-  return cats.map(x=>row(x.category,R.num(x.amountUSD),'indent2')).join('');
+  return cats.length?cats.map(x=>line(x.category,x.amountUSD,'indent')).join(''):emptyLine(emptyLabel);
 }
+function fileName(){
+  const m=String($('monthInput').value||'monthly').replace(/[^0-9-]/g,'');
+  return `BIG-BROTHER-Income-Statement-${m||'monthly'}.png`;
+}
+async function renderPictureBlob(){
+  if(!lastReport) throw new Error('Load the Income Statement first.');
+  if(typeof window.html2canvas!=='function') throw new Error('Picture generator is still loading. Please try again in a moment.');
+  const target=$('captureArea');
+  const canvas=await window.html2canvas(target,{
+    backgroundColor:'#f7faff',
+    scale:2,
+    useCORS:true,
+    logging:false,
+    scrollX:0,
+    scrollY:-window.scrollY,
+    windowWidth:Math.max(document.documentElement.clientWidth,target.scrollWidth)
+  });
+  return await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('Could not create picture.')),'image/png',1));
+}
+function downloadBlob(blob,name){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+async function savePicture(){
+  R.disable('savePictureBtn',true,'Creating…');
+  try{
+    const blob=await renderPictureBlob();
+    downloadBlob(blob,fileName());
+    R.status('status','Income Statement picture saved.','ok');
+  }catch(e){R.status('status',e.message||String(e),'error')}
+  finally{R.disable('savePictureBtn',false)}
+}
+async function shareTelegram(){
+  R.disable('telegramBtn',true,'Preparing…');
+  try{
+    const blob=await renderPictureBlob();
+    const file=new File([blob],fileName(),{type:'image/png'});
+    const shareData={title:'BIG BROTHER Income Statement',text:(lastReport?.periodLabel||'Monthly')+' Income Statement',files:[file]};
+
+    if(navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){
+      await navigator.share(shareData);
+      R.status('status','Picture opened in your share menu — choose Telegram.','ok');
+      return;
+    }
+
+    let copied=false;
+    if(navigator.clipboard && window.ClipboardItem){
+      try{
+        await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);
+        copied=true;
+      }catch(_){copied=false}
+    }
+
+    if(!copied) downloadBlob(blob,fileName());
+    const popup=window.open('https://web.telegram.org/k/','_blank','noopener');
+    R.status('status',copied
+      ? 'Picture copied to clipboard. Telegram opened — paste the image into your chat.'
+      : 'Your browser cannot share image files directly. The picture was saved; attach it in Telegram.',
+      'ok');
+    if(!popup && copied) R.status('status','Picture copied to clipboard. Open Telegram and paste the image into your chat.','ok');
+  }catch(e){
+    if(e?.name!=='AbortError') R.status('status',e.message||String(e),'error');
+  }finally{R.disable('telegramBtn',false)}
+}
+
 async function load(){
   R.disable('loadBtn',true,'Loading…');R.status('status','');R.loading('loading',true);$('main').hidden=true;
   try{
     const p=R.monthParts($('monthInput').value);
     const d=await R.rpc('bb_report_income_statement',{p_year:p.year,p_month:p.month});
+    lastReport=d;
     const s=d.statement||{};
     const locs=Array.isArray(d.salesLocations)?d.salesLocations:[];
     const sections=Array.isArray(d.expenseSections)?d.expenseSections:[];
@@ -69,57 +235,70 @@ async function load(){
     const capex=sections.find(x=>x.expenseType==='CAPITAL EXPENSE')||{categories:[],totalAmountUSD:0};
     const wd=d.withdrawalSection||{categories:[],totalAmountUSD:0};
 
-    $('totalSale').textContent=R.money(s.totalSalesUSD);
-    $('grossProfit').textContent=R.money(s.grossProfitUSD);
-    $('netIncome').textContent=R.money(s.netIncomeUSD);
-    $('retainedEarnings').textContent=R.money(s.retainedEarningsUSD);
+    $('totalSale').textContent=money(s.totalSalesUSD);
+    $('grossProfit').textContent=money(s.grossProfitUSD);
+    $('netIncome').textContent=money(s.netIncomeUSD);
+    $('retainedEarnings').textContent=money(s.retainedEarningsUSD);
     $('statementTitle').textContent=(d.periodLabel||'Monthly')+' Income Statement';
+    $('capturePeriod').textContent=d.periodLabel||'Monthly';
+    $('captureGenerated').textContent=d.generatedAt?'Generated '+d.generatedAt:'';
 
     const locationRows=locs.length
-      ? locs.map(x=>row(x.locationName||x.locationCode,R.num(x.grossSalesUSD),'indent2',x.locationCode?` <span class="code">${R.esc(x.locationCode)}</span>`:'')).join('')
-      : row('No sales by location',0,'indent2 muted-row');
+      ? `<div class="block-subhead">Sale by Location</div>`+locs.map(x=>line(x.locationName||x.locationCode,x.grossSalesUSD,'indent',x.locationCode?` <span class="code">${R.esc(x.locationCode)}</span>`:'')).join('')
+      : `<div class="block-subhead">Sale by Location</div>`+emptyLine('No Sales');
+
+    const grossBlock=block('Gross Sale',
+      locationRows+
+      line('Total Sale',s.totalSalesUSD,'total')+
+      line('Less: Sale Return / Invoice Reversal',s.salesReturnsUSD,'less')+
+      line('Less: Cost of Goods Sold',s.cogsUSD,'less')+
+      line('Gross Profit',s.grossProfitUSD,'strong')
+    );
+
+    const opBlock=block('Operating Expense',
+      categoryLines(op,'No Operating Expense')+
+      line('Total Operating Expense',s.operatingExpenseUSD,'total')+
+      line('Income after Operating Expense',s.incomeAfterOperatingExpenseUSD,'strong')
+    );
+
+    const nonopBlock=block('Non-Operating Expense',
+      categoryLines(nonop,'No Non-Operating Expense')+
+      line('Total Non-Operating Expense',s.nonOperatingExpenseUSD,'total')
+    );
+
+    const capexBlock=block('Capital Expense',
+      categoryLines(capex,'No Capital Expense')+
+      line('Total Capital Expense',s.capitalExpenseUSD,'total')
+    );
+
+    const netClass=R.num(s.netIncomeUSD)>=0?'net-income':'net-income';
+    const netBlock=`<section class="block">${line('Net Income',s.netIncomeUSD,netClass)}</section>`;
+
+    const wdBlock=block('Withdrawal',
+      categoryLines(wd,'No Withdrawal')+
+      line('Total Withdrawal',s.withdrawalUSD,'total')
+    );
 
     const retainedClass=R.num(s.retainedEarningsUSD)>=0?'retained-positive':'retained-negative';
-    const netClass=R.num(s.netIncomeUSD)>=0?'profit':'loss';
+    const retainedBlock=`<section class="block">${line('Retained Earnings',s.retainedEarningsUSD,retainedClass)}</section>`;
 
-    $('statementRows').innerHTML=
-      section('Gross Sale')+
-      locationRows+
-      row('Total Sale',s.totalSalesUSD,'subtotal')+
-      row('Less: Sale Return / Invoice Reversal',s.salesReturnsUSD,'indent')+
-      row('Less: Cost of Goods Sold',s.cogsUSD,'indent')+
-      row('Gross Profit',s.grossProfitUSD,'strong')+
-      gap()+
-      section('Operating Expense')+
-      categories(op,'No Operating Expense')+
-      row('Total Operating Expense',s.operatingExpenseUSD,'subtotal')+
-      row('Income after Operating Expense',s.incomeAfterOperatingExpenseUSD,'net')+
-      gap()+
-      section('Non-Operating Expense')+
-      categories(nonop,'No Non-Operating Expense')+
-      row('Total Non-Operating Expense',s.nonOperatingExpenseUSD,'subtotal')+
-      gap()+
-      section('Capital Expense')+
-      categories(capex,'No Capital Expense')+
-      row('Total Capital Expense',s.capitalExpenseUSD,'subtotal')+
-      row('Net Income',s.netIncomeUSD,netClass)+
-      gap()+
-      section('Withdrawal')+
-      categories(wd,'No Withdrawal')+
-      row('Total Withdrawal',s.withdrawalUSD,'subtotal')+
-      row('Retained Earnings',s.retainedEarningsUSD,retainedClass);
+    $('leftColumn').innerHTML=grossBlock+opBlock;
+    $('rightColumn').innerHTML=nonopBlock+capexBlock+netBlock+wdBlock+retainedBlock;
 
     const q=d.cogsDataQuality||{};
     $('qualityNote').textContent=q.hasIssues
       ? '⚠ COGS data-quality review required before finalizing this statement.'
-      : 'COGS costing check: OK. Capital Expense is fully deducted in Net Income. Paid Owner Withdrawal is excluded from expense and deducted after Net Income to calculate current-period Retained Earnings.';
+      : 'COGS costing check: OK. Capital Expense is fully deducted in Net Income. Paid Owner Withdrawal is deducted after Net Income to calculate current-period Retained Earnings.';
 
     R.status('status',(d.periodLabel||'')+' • Generated '+(d.generatedAt||''),'ok');
     $('main').hidden=false;
-  }catch(e){R.status('status',e.message||String(e),'error')}
+  }catch(e){lastReport=null;R.status('status',e.message||String(e),'error')}
   finally{R.loading('loading',false);R.disable('loadBtn',false)}
 }
+
 $('loadBtn').onclick=load;
+$('savePictureBtn').onclick=savePicture;
+$('telegramBtn').onclick=shareTelegram;
 load();
 })();
 </script>
