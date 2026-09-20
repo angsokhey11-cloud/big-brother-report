@@ -266,6 +266,13 @@ async function load(){
       line('Total Non-Operating Expense',s.nonOperatingExpenseUSD,'total')
     );
 
+    const fxBlock=block('Exchange Gain / Loss',
+      line('Exchange Gain',s.exchangeGainUSD,'indent')+
+      line('Less: Exchange Loss',s.exchangeLossUSD,'less')+
+      line('Net Exchange Gain / Loss',s.netExchangeGainLossUSD,'strong')+
+      line('Income after Exchange',s.incomeAfterExchangeUSD,'strong')
+    );
+
     const capexBlock=block('Capital Expense',
       categoryLines(capex,'No Capital Expense')+
       line('Total Capital Expense',s.capitalExpenseUSD,'total')
@@ -283,12 +290,12 @@ async function load(){
     const retainedBlock=`<section class="block">${line('Retained Earnings',s.retainedEarningsUSD,retainedClass)}</section>`;
 
     $('leftColumn').innerHTML=grossBlock+opBlock;
-    $('rightColumn').innerHTML=nonopBlock+capexBlock+netBlock+wdBlock+retainedBlock;
+    $('rightColumn').innerHTML=nonopBlock+fxBlock+capexBlock+netBlock+wdBlock+retainedBlock;
 
     const q=d.cogsDataQuality||{};
     $('qualityNote').textContent=q.hasIssues
       ? '⚠ COGS data-quality review required before finalizing this statement.'
-      : 'COGS costing check: OK. Capital Expense is fully deducted in Net Income. Paid Owner Withdrawal is deducted after Net Income to calculate current-period Retained Earnings.';
+      : 'COGS costing check: OK. Realized Vault KHR Exchange Gain/Loss is included before Net Income. Capital Expense is fully deducted in Net Income. Paid Owner Withdrawal is deducted after Net Income to calculate current-period Retained Earnings.';
 
     R.status('status',(d.periodLabel||'')+' • Generated '+(d.generatedAt||''),'ok');
     $('main').hidden=false;
