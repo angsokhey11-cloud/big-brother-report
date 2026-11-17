@@ -52,11 +52,12 @@ function renderTable(data,product,{location='',from='',to=''}={}){
     totals.grossQty+=r.grossQty;totals.returnQty+=r.returnQty;totals.netQty+=r.netQty;
     for(const [code,n] of Object.entries(r.byCode))totals.byCode[code]=(totals.byCode[code]||0)+n;
   }
-  const header=`<thead><tr><th>Date</th><th>Location</th><th class="bb-daily-number">Gross Qty</th><th class="bb-daily-number">Returned</th><th class="bb-daily-number">Net Qty</th>${product.isGroup?p.columns.map(c=>`<th class="bb-daily-number" title="${htmlEscape(c.name)}">${htmlEscape(c.name)}<small>${htmlEscape(c.code)}${c.unit?' / '+htmlEscape(c.unit):''}</small></th>`).join(''):''}</tr></thead>`;
-  const body=rows.map(r=>`<tr><td class="bb-daily-date">${htmlEscape(dateText(r.date))}</td><td class="bb-daily-location">${htmlEscape(r.locationName)}<small>${htmlEscape(r.locationCode)}</small></td><td class="bb-daily-number">${fmtQty(r.grossQty)}</td><td class="bb-daily-number">${r.returnQty?fmtQty(r.returnQty):'—'}</td><td class="bb-daily-number bb-daily-net">${fmtQty(r.netQty)}</td>${product.isGroup?p.columns.map(c=>`<td class="bb-daily-number">${r.byCode[norm(c.code)]?fmtQty(r.byCode[norm(c.code)]):'—'}</td>`).join(''):''}</tr>`).join('');
-  const footer=`<tfoot><tr><th colspan="2">TOTAL</th><th class="bb-daily-number">${fmtQty(totals.grossQty)}</th><th class="bb-daily-number">${fmtQty(totals.returnQty)}</th><th class="bb-daily-number">${fmtQty(totals.netQty)}</th>${product.isGroup?p.columns.map(c=>`<th class="bb-daily-number">${fmtQty(totals.byCode[norm(c.code)]||0)}</th>`).join(''):''}</tr></tfoot>`;
-  const table=`<div class="bb-daily-scroll"><table class="bb-daily-table">${header}<tbody>${body||`<tr><td colspan="${5+(product.isGroup?p.columns.length:0)}" class="bb-daily-empty">No sales match the selected date and location.</td></tr>`}</tbody>${footer}</table></div>`;
-  return {table,rows,totals,columns:p.columns};
+  const showReturns=Math.abs(totals.returnQty)>0.0000001;
+  const header=`<thead><tr><th>Date</th><th>Location</th><th class="bb-daily-number">Gross Qty</th>${showReturns?'<th class="bb-daily-number">Returned</th>':''}<th class="bb-daily-number">Net Qty</th>${product.isGroup?p.columns.map(c=>`<th class="bb-daily-number" title="${htmlEscape(c.name)}">${htmlEscape(c.name)}<small>${htmlEscape(c.code)}${c.unit?' / '+htmlEscape(c.unit):''}</small></th>`).join(''):''}</tr></thead>`;
+  const body=rows.map(r=>`<tr><td class="bb-daily-date">${htmlEscape(dateText(r.date))}</td><td class="bb-daily-location">${htmlEscape(r.locationName)}<small>${htmlEscape(r.locationCode)}</small></td><td class="bb-daily-number">${fmtQty(r.grossQty)}</td>${showReturns?`<td class="bb-daily-number">${r.returnQty?fmtQty(r.returnQty):'—'}</td>`:''}<td class="bb-daily-number bb-daily-net">${fmtQty(r.netQty)}</td>${product.isGroup?p.columns.map(c=>`<td class="bb-daily-number">${r.byCode[norm(c.code)]?fmtQty(r.byCode[norm(c.code)]):'—'}</td>`).join(''):''}</tr>`).join('');
+  const footer=`<tfoot><tr><th colspan="2">TOTAL</th><th class="bb-daily-number">${fmtQty(totals.grossQty)}</th>${showReturns?`<th class="bb-daily-number">${fmtQty(totals.returnQty)}</th>`:''}<th class="bb-daily-number">${fmtQty(totals.netQty)}</th>${product.isGroup?p.columns.map(c=>`<th class="bb-daily-number">${fmtQty(totals.byCode[norm(c.code)]||0)}</th>`).join(''):''}</tr></tfoot>`;
+  const table=`<div class="bb-daily-scroll"><table class="bb-daily-table">${header}<tbody>${body||`<tr><td colspan="${4+(showReturns?1:0)+(product.isGroup?p.columns.length:0)}" class="bb-daily-empty">No sales match the selected date and location.</td></tr>`}</tbody>${footer}</table></div>`;
+  return {table,rows,totals,columns:p.columns,showReturns};
 }
 function create(opts){
   const root=opts.root,mobile=!!opts.mobile;
@@ -107,15 +108,24 @@ function create(opts){
     const gap=Math.abs(actual-expected);
     const mismatch=gap>0.00001;
     const unit=product.mixedUnits?'mixed units':String(product.unit||'units');
-    result.innerHTML=`<section class="bb-daily-card"><div class="bb-daily-top"><div><span class="bb-daily-tag">${product.isGroup?'ACTIVE GROUP':'INDIVIDUAL PRODUCT'}</span><h2>${esc(product.name)}</h2><p>${esc(product.code)} · ${esc(unit)} · ${esc(period)}</p></div><div class="bb-daily-total"><small>NET SOLD QTY</small><strong>${product.mixedUnits?'By SKU':fmtQty(actual)}</strong><small>${esc(unit)}</small></div></div>
+    result.innerHTML=`<section class="bb-daily-card"><div class="bb-daily-top"><div><span class="bb-daily-tag">${product.isGroup?'ACTIVE GROUP':'INDIVIDUAL PRODUCT'}</span><h2>${esc(product.name)}</h2><p>${esc(product.code)} · ${esc(unit)} · ${esc(period)}</p></div><div class="bb-daily-total"><small>NET SOLD QTY</small><strong>${product.mixedUnits?'By SKU':fmtQty(built.totals.netQty)}</strong><small>${esc(unit)}</small></div></div>
     ${mismatch?`<div class="bb-daily-warning">Monthly quantity mismatch: summary ${fmtQty(expected)}, daily ${fmtQty(actual)}. Please review sales/returns or refresh the report.</div>`:''}
-    <div class="bb-daily-metrics"><span>Gross: <strong>${product.mixedUnits?'By SKU':fmtQty(d.totals.grossQty)}</strong></span><span>Returned: <strong>${product.mixedUnits?'By SKU':fmtQty(d.totals.returnQty)}</strong></span><span>${d.dates} sale/return date(s)</span><span>${d.locations} location(s)</span></div>
+    <div class="bb-daily-metrics"><span>Gross: <strong>${product.mixedUnits?'By SKU':fmtQty(built.totals.grossQty)}</strong></span>${built.showReturns?`<span>Returned: <strong>${product.mixedUnits?'By SKU':fmtQty(built.totals.returnQty)}</strong></span>`:''}<span>${d.dates} sale/return date(s)</span><span>${d.locations} location(s)</span></div>
     <div class="bb-daily-filter-row"><label>Location<select class="bb-daily-loc"><option value="">All locations</option>${locs.map(([code,name])=>`<option value="${esc(code)}"${code===location?' selected':''}>${esc(name)} (${esc(code)})</option>`).join('')}</select></label><label>From<input class="bb-daily-from" type="date" min="${esc(period+'-01')}" max="${esc(monthEnd)}" value="${esc(from)}"></label><label>To<input class="bb-daily-to" type="date" min="${esc(period+'-01')}" max="${esc(monthEnd)}" value="${esc(to)}"></label></div>
     <div class="bb-daily-count">${built.rows.length} date + location row(s)${product.isGroup?' · '+d.columns.length+' sold SKU column(s)':''}</div>
-    ${built.table}<p class="bb-daily-help">Rows combine invoices with the same date and selling location. Gross Qty follows the invoice date; returned Qty follows the return date. Member columns show net quantities. Amounts and original monthly totals are unchanged.</p></section>`;
+    ${built.table}<div class="bb-daily-export-bar"><button type="button" class="bb-daily-export-preview" ${built.rows.length?'':'disabled'}>Preview A4 Picture</button><button type="button" class="bb-daily-export-download" ${built.rows.length?'':'disabled'}>Download A4 Picture</button></div><p class="bb-daily-help">Rows combine invoices with the same date and selling location. ${built.showReturns?'Gross Qty follows invoice date and returns follow return date.':'Quantities follow invoice selling dates.'} Member columns show net quantities. Original monthly accounting totals are unchanged.</p></section>`;
     lookup('.bb-daily-loc').addEventListener('change',e=>{dailyFilter.location=e.target.value;draw()});
     lookup('.bb-daily-from').addEventListener('change',e=>{dailyFilter.from=e.target.value;draw()});
     lookup('.bb-daily-to').addEventListener('change',e=>{dailyFilter.to=e.target.value;draw()});
+    const exportPayload=button=>({product,report,filter:{...dailyFilter},month:period,render:renderTable,button});
+    lookup('.bb-daily-export-preview').addEventListener('click',e=>{
+      if(!window.BBMonthlyDailyA4Export)return alert('A4 picture export is not loaded. Please refresh the report.');
+      window.BBMonthlyDailyA4Export.preview(exportPayload(e.currentTarget));
+    });
+    lookup('.bb-daily-export-download').addEventListener('click',e=>{
+      if(!window.BBMonthlyDailyA4Export)return alert('A4 picture export is not loaded. Please refresh the report.');
+      window.BBMonthlyDailyA4Export.download(exportPayload(e.currentTarget));
+    });
   }
   async function select(p){
     if(!p)return;
@@ -178,6 +188,10 @@ style.textContent=`
 .bb-daily-warning{border:1px solid #efc69f;background:#fff6ed;padding:12px;border-radius:8px;font-size:11px;color:#8a4f16;margin:10px 0}
 .bb-daily-loading{padding:20px;color:#345b85;font-weight:800;font-size:11px}
 .bb-daily-empty{padding:20px;text-align:center;color:#647c93}
+.bb-daily-export-bar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 7px}
+.bb-daily-export-bar button{border:0;border-radius:9px;background:#17457a;color:white;font-size:11px;font-weight:900;padding:11px 14px;cursor:pointer}
+.bb-daily-export-bar .bb-daily-export-preview{background:#e8f1fa;color:#17457a;border:1px solid #bcd1e8}
+.bb-daily-export-bar button:disabled{opacity:.5;cursor:not-allowed}
 .bb-daily-mobile .bb-daily-picker,.bb-daily-mobile .bb-daily-card{padding:11px}
 .bb-daily-mobile .bb-daily-top h2{font-size:13px}
 .bb-daily-mobile .bb-daily-total strong{font-size:18px}
