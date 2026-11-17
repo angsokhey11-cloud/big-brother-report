@@ -24,8 +24,8 @@ const styleText=`
 .bb-a4-sheet .a4-summary b{display:block;color:#173f77;font-size:16px;margin-top:4px}
 .bb-a4-sheet .a4-title{font-size:10px;font-weight:800;margin:5px 0 9px}
 .bb-a4-sheet .a4-body{flex:0 0 auto;min-height:0}
-.bb-a4-sheet table{border-collapse:collapse;table-layout:fixed;width:100%;margin:0;font-family:Arial,'Noto Sans Khmer',sans-serif}
-.bb-a4-sheet th{background:#e7f1fc;border:1px solid #cedce9;color:#173f77;white-space:normal;word-break:break-word;overflow-wrap:anywhere;font-size:8px;font-weight:900;padding:7px 4px;line-height:1.25;text-align:left}
+.bb-a4-sheet table{border-collapse:collapse;table-layout:fixed;width:100%;min-width:0!important;margin:0;font-family:Arial,'Noto Sans Khmer',sans-serif}
+.bb-a4-sheet th{position:static!important;background:#e7f1fc;border:1px solid #cedce9;color:#173f77;white-space:normal;word-break:break-word;overflow-wrap:anywhere;font-size:8px;font-weight:900;padding:7px 4px;line-height:1.25;text-align:left}
 .bb-a4-sheet td{border:1px solid #d5e0ec;color:#1b2e46;font-size:9px;padding:7px 4px;line-height:1.25;vertical-align:top;overflow-wrap:anywhere}
 .bb-a4-sheet th.a4-num,.bb-a4-sheet td.a4-num{text-align:right;font-variant-numeric:tabular-nums}
 .bb-a4-sheet td.a4-date{white-space:nowrap;font-weight:700}
