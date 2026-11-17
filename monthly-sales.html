@@ -28,11 +28,15 @@
 @media(max-width:950px){.monthly-product-card summary{display:block}.monthly-product-metrics{margin-top:12px;max-width:none}.monthly-product-expand{display:block;margin-top:8px}}
 @media(max-width:550px){.monthly-product-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.monthly-product-metric strong{font-size:12px}}
 @media print{.monthly-views,.monthly-product-filter{display:none!important}.monthly-product-card summary{break-inside:avoid}.monthly-product-detail{display:block}}
-</style></head><body><div class="app"><a class="back" href="index.html">← Main Reports</a><div class="hero"><div><h1>📈 Monthly Sales Report</h1><p>Search product sales across locations or open the original location breakdown. KHR sales convert to USD using each invoice's saved exchange rate.</p></div><div class="pill">MONTHLY SALES</div></div><div class="toolbar"><div class="field"><label>Report Month</label><input id="monthInput" type="month"></div><button id="loadBtn" class="btn primary">Load Report</button><button class="btn secondary" onclick="window.print()">Print</button></div><div id="status" class="status" hidden></div><div id="loading" class="loading" hidden><div class="loadcard">Loading Monthly Sales…</div></div><main id="main" hidden><section class="summary"><div class="kpi"><small>Total Sale USD</small><strong id="totalSale">$0.00</strong><div class="sub">Net of sales returns.</div></div><div class="kpi"><small>Gross Sales USD</small><strong id="grossSales">$0.00</strong><div class="sub">Valid invoice grand totals.</div></div><div class="kpi"><small>Sales Returns USD</small><strong id="returns">$0.00</strong><div class="sub">Returns recognized in selected month.</div></div><div class="kpi"><small>Invoices / Locations</small><strong id="counts">0 / 0</strong><div class="sub">Valid invoices and selling locations.</div></div></section><div class="note">Total Sale USD = valid USD invoices + (KHR invoice total ÷ invoice exchange rate) − sales returns converted using the original invoice exchange rate.</div><div class="monthly-views" role="group" aria-label="Monthly sales report view"><button type="button" class="monthly-view-btn active" id="monthlyProductView" aria-pressed="true">Product Sales Summary</button><button type="button" class="monthly-view-btn" id="monthlyLocationView" aria-pressed="false">By Location (Original)</button></div><div class="monthly-product-filter" id="monthlyProductFilter"><label for="monthlyProductSearch">Search product name or SKU</label><input type="search" id="monthlyProductSearch" placeholder="e.g. Kirisu Milk 2L, KIR2L, Champei…" autocomplete="off"><div class="monthly-product-hint">Type to show only matching products. Results combine sales across every location for the selected month. Click a product to see its sales by location.</div></div><section id="monthlyProductResults" aria-live="polite"></section><div id="locations" hidden></div></main></div><script src="report-common.js?v=20260913-1"></script><script src="monthly-product-groups-v1.js?v=20261117-group1"></script><script>(function(){
+</style></head><body><div class="app"><a class="back" href="index.html">← Main Reports</a><div class="hero"><div><h1>📈 Monthly Sales Report</h1><p>Search product sales across locations or open the original location breakdown. KHR sales convert to USD using each invoice's saved exchange rate.</p></div><div class="pill">MONTHLY SALES</div></div><div class="toolbar"><div class="field"><label>Report Month</label><input id="monthInput" type="month"></div><button id="loadBtn" class="btn primary">Load Report</button><button class="btn secondary" onclick="window.print()">Print</button></div><div id="status" class="status" hidden></div><div id="loading" class="loading" hidden><div class="loadcard">Loading Monthly Sales…</div></div><main id="main" hidden><section class="summary"><div class="kpi"><small>Total Sale USD</small><strong id="totalSale">$0.00</strong><div class="sub">Net of sales returns.</div></div><div class="kpi"><small>Gross Sales USD</small><strong id="grossSales">$0.00</strong><div class="sub">Valid invoice grand totals.</div></div><div class="kpi"><small>Sales Returns USD</small><strong id="returns">$0.00</strong><div class="sub">Returns recognized in selected month.</div></div><div class="kpi"><small>Invoices / Locations</small><strong id="counts">0 / 0</strong><div class="sub">Valid invoices and selling locations.</div></div></section><div class="note">Total Sale USD = valid USD invoices + (KHR invoice total ÷ invoice exchange rate) − sales returns converted using the original invoice exchange rate.</div><div class="monthly-views" role="group" aria-label="Monthly sales report view"><button type="button" class="monthly-view-btn active" id="monthlyProductView" aria-pressed="true">Product Sales Summary</button><button type="button" class="monthly-view-btn" id="monthlyLocationView" aria-pressed="false">By Location (Original)</button><button type="button" class="monthly-view-btn" id="monthlyDailyView" aria-pressed="false">By Date &amp; Location</button></div><div class="monthly-product-filter" id="monthlyProductFilter"><label for="monthlyProductSearch">Search product name or SKU</label><input type="search" id="monthlyProductSearch" placeholder="e.g. Kirisu Milk 2L, KIR2L, Champei…" autocomplete="off"><div class="monthly-product-hint">Type to show only matching products. Results combine sales across every location for the selected month. Click a product to see its sales by location.</div></div><section id="monthlyProductResults" aria-live="polite"></section><section id="monthlyDailyPane" hidden></section><div id="locations" hidden></div></main></div><script src="report-common.js?v=20260913-1"></script><script src="monthly-product-groups-v1.js?v=20261117-group1"></script><script src="monthly-product-daily-v1.js?v=20261117-daily1"></script><script>(function(){
 'use strict';
 const R=window.BBReport,$=id=>document.getElementById(id);
 R.setupMonth('monthInput');
 let productRows=[],loadedReport=null,activeView='product';
+const dailyController=BBMonthlyProductDaily.create({
+  root:$('monthlyDailyPane'), mobile:false, rpc:(name,args)=>R.rpc(name,args),
+  getProducts:()=>productRows,month:()=>$('monthInput').value
+});
 const fields=['grossQty','returnQty','netQty','grossSalesUSD','returnsUSD','totalSaleUSD'];
 function productSummaryRows(locations){
   const products=new Map();
@@ -78,15 +82,16 @@ function renderProducts(){
 }
 function card(x){const rows=(x.products||[]).map(p=>`<tr><td><b>${R.esc(p.productCode)}</b><div style="color:#728499;font-size:9px;margin-top:2px">${R.esc(p.productName)}</div></td><td>${R.esc(p.unit||'-')}</td><td class="qty">${R.qty(p.grossQty)}</td><td class="qty">${R.qty(p.returnQty)}</td><td class="qty"><b>${R.qty(p.netQty)}</b></td><td class="money">${R.money(p.grossSalesUSD)}</td><td class="money">${R.money(p.returnsUSD)}</td><td class="money"><b>${R.money(p.totalSaleUSD)}</b></td></tr>`).join('');return `<section class="card"><div class="card-head"><div class="location-title"><strong>${R.esc(x.locationName)}</strong><span class="location-code">${R.esc(x.locationCode)}</span></div><span class="location-total">${R.money(x.totalSaleUSD)}</span></div><div class="tablewrap"><table><thead><tr><th>SKU / Product</th><th>Unit</th><th class="qty">Gross Qty</th><th class="qty">Return Qty</th><th class="qty">Net Qty</th><th class="money">Gross Sales USD</th><th class="money">Returns USD</th><th class="money">Total Sale USD</th></tr></thead><tbody>${rows||'<tr><td colspan="8" class="empty">No SKU sales.</td></tr>'}<tr class="total-row"><td colspan="2">Location Total</td><td class="qty">${R.qty(x.grossQty)}</td><td class="qty">${R.qty(x.returnQty)}</td><td class="qty">${R.qty(x.netQty)}</td><td class="money">${R.money(x.grossSalesUSD)}</td><td class="money">${R.money(x.returnsUSD)}</td><td class="money">${R.money(x.totalSaleUSD)}</td></tr></tbody></table></div></section>`}
 function setView(view){
- activeView=view==='location'?'location':'product';
- const isProduct=activeView==='product';
- $('monthlyProductView').classList.toggle('active',isProduct);
- $('monthlyLocationView').classList.toggle('active',!isProduct);
- $('monthlyProductView').setAttribute('aria-pressed',String(isProduct));
- $('monthlyLocationView').setAttribute('aria-pressed',String(!isProduct));
+ activeView=view==='location'?'location':view==='daily'?'daily':'product';
+ const isProduct=activeView==='product',isLocation=activeView==='location',isDaily=activeView==='daily';
+ for(const [id,active] of [['monthlyProductView',isProduct],['monthlyLocationView',isLocation],['monthlyDailyView',isDaily]]){
+   $(id).classList.toggle('active',active);
+   $(id).setAttribute('aria-pressed',String(active));
+ }
  $('monthlyProductFilter').hidden=!isProduct;
  $('monthlyProductResults').hidden=!isProduct;
- $('locations').hidden=isProduct;
+ $('locations').hidden=!isLocation;
+ dailyController.setVisible(isDaily,isDaily?$('monthlyProductSearch').value:'');
 }
 async function load(){
  R.disable('loadBtn',true,'Loading…');R.status('status','');R.loading('loading',true);$('main').hidden=true;
@@ -100,6 +105,7 @@ async function load(){
    $('counts').textContent=String(t.invoiceCount||0)+' / '+String(t.locationCount||0);
    loadedReport=d;
    productRows=BBMonthlyProductFamilies.combine(productSummaryRows(d.locations||[]),groupResult.groups||[]);
+   dailyController.reset();
    $('locations').innerHTML=(d.locations||[]).map(card).join('')||'<div class="card"><div class="empty">No sales for this month.</div></div>';
    renderProducts();setView(activeView);
    R.status('status',d.periodLabel+' • Generated '+(d.generatedAt||'')+(groupResult.error?' • Product groups unavailable: '+groupResult.error.message:''),groupResult.error?'error':'ok');
@@ -110,5 +116,6 @@ async function load(){
 $('monthlyProductSearch').addEventListener('input',renderProducts);
 $('monthlyProductView').addEventListener('click',()=>setView('product'));
 $('monthlyLocationView').addEventListener('click',()=>setView('location'));
+$('monthlyDailyView').addEventListener('click',()=>setView('daily'));
 $('loadBtn').onclick=load;load();
 })();</script></body></html>
