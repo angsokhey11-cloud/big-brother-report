@@ -98,6 +98,9 @@ function create(opts){
     const from=String(dailyFilter.from||''),to=String(dailyFilter.to||'');
     const location=String(dailyFilter.location||'');
     const period=safeMonth();
+    const ym=period.match(/^(\d{4})-(\d{2})$/);
+    const lastDay=ym?new Date(Date.UTC(Number(ym[1]),Number(ym[2]),0)).getUTCDate():31;
+    const monthEnd=period+'-'+String(lastDay).padStart(2,'0');
     const locs=[...new Map(d.rows.map(r=>[r.locationCode,r.locationName])).entries()].sort((a,b)=>a[1].localeCompare(b[1]));
     const built=renderTable(report,product,{location,from,to});
     const actual=d.totals.netQty,expected=val(product.netQty);
@@ -107,7 +110,7 @@ function create(opts){
     result.innerHTML=`<section class="bb-daily-card"><div class="bb-daily-top"><div><span class="bb-daily-tag">${product.isGroup?'ACTIVE GROUP':'INDIVIDUAL PRODUCT'}</span><h2>${esc(product.name)}</h2><p>${esc(product.code)} · ${esc(unit)} · ${esc(period)}</p></div><div class="bb-daily-total"><small>NET SOLD QTY</small><strong>${product.mixedUnits?'By SKU':fmtQty(actual)}</strong><small>${esc(unit)}</small></div></div>
     ${mismatch?`<div class="bb-daily-warning">Monthly quantity mismatch: summary ${fmtQty(expected)}, daily ${fmtQty(actual)}. Please review sales/returns or refresh the report.</div>`:''}
     <div class="bb-daily-metrics"><span>Gross: <strong>${product.mixedUnits?'By SKU':fmtQty(d.totals.grossQty)}</strong></span><span>Returned: <strong>${product.mixedUnits?'By SKU':fmtQty(d.totals.returnQty)}</strong></span><span>${d.dates} sale/return date(s)</span><span>${d.locations} location(s)</span></div>
-    <div class="bb-daily-filter-row"><label>Location<select class="bb-daily-loc"><option value="">All locations</option>${locs.map(([code,name])=>`<option value="${esc(code)}"${code===location?' selected':''}>${esc(name)} (${esc(code)})</option>`).join('')}</select></label><label>From<input class="bb-daily-from" type="date" min="${esc(period+'-01')}" max="${esc(period+'-31')}" value="${esc(from)}"></label><label>To<input class="bb-daily-to" type="date" min="${esc(period+'-01')}" max="${esc(period+'-31')}" value="${esc(to)}"></label></div>
+    <div class="bb-daily-filter-row"><label>Location<select class="bb-daily-loc"><option value="">All locations</option>${locs.map(([code,name])=>`<option value="${esc(code)}"${code===location?' selected':''}>${esc(name)} (${esc(code)})</option>`).join('')}</select></label><label>From<input class="bb-daily-from" type="date" min="${esc(period+'-01')}" max="${esc(monthEnd)}" value="${esc(from)}"></label><label>To<input class="bb-daily-to" type="date" min="${esc(period+'-01')}" max="${esc(monthEnd)}" value="${esc(to)}"></label></div>
     <div class="bb-daily-count">${built.rows.length} date + location row(s)${product.isGroup?' · '+d.columns.length+' sold SKU column(s)':''}</div>
     ${built.table}<p class="bb-daily-help">Rows combine invoices with the same date and selling location. Gross Qty follows the invoice date; returned Qty follows the return date. Member columns show net quantities. Amounts and original monthly totals are unchanged.</p></section>`;
     lookup('.bb-daily-loc').addEventListener('change',e=>{dailyFilter.location=e.target.value;draw()});
